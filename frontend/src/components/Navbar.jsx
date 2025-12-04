@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useUser, useClerk, UserButton } from '@clerk/clerk-react';
 import { useAuth } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 import API from '../axios';
 
 const Navbar = () => {
   const { user, isSignedIn } = useUser();
   const { openSignIn, signOut } = useClerk();
   const { getToken } = useAuth();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -48,6 +50,16 @@ const Navbar = () => {
               />
             </a>
           </div>
+
+          {/* Pricing Button - Show for non-logged in users OR logged in users with >= 5 searches */}
+          {(!isSignedIn || (userData && userData.noOfSearches >= 5)) && (
+            <button
+              onClick={() => navigate('/pricing')}
+              className="hidden md:flex items-center gap-2 px-4 py-2 text-black font-bold"
+            >
+              Pricing
+            </button>
+          )}
 
           {/* Right Section */}
           <div className="flex items-center gap-4">

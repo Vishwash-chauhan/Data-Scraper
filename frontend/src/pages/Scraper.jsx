@@ -133,6 +133,26 @@ const Scraper = () => {
     setToast({ visible: true, message, type, duration });
   };
 
+  // Decrement search count after successful API call
+  const decrementSearchCount = async () => {
+    try {
+      const token = await getToken();
+      const newCount = userData.noOfSearches - 1;
+      await API.put(`/api/users/${userData._id}/searches`, 
+        { noOfSearches: newCount },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      // Update local state
+      setUserData({ ...userData, noOfSearches: newCount });
+    } catch (err) {
+      console.error('Failed to decrement search count:', err);
+    }
+  };
+
   // CSV escape
   const escapeCSV = (value) => {
     if (value === undefined || value === null) return '""';
@@ -229,6 +249,9 @@ const Scraper = () => {
 
       // finalize progress
       setProgress(96);
+
+      // Decrement search count for this API call (both new search and load more)
+      await decrementSearchCount();
 
       // update results
       if (newSearch) {
