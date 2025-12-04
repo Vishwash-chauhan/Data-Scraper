@@ -3,7 +3,7 @@ import API from "../axios";
 
 const PLAN_OPTIONS = ["No Plan", "Silver", "Gold", "Platinum"];
 
-export default function AdminPanel() {
+export default function AdminPanel({ token: getToken }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -18,7 +18,12 @@ export default function AdminPanel() {
 
   const fetchUsers = async () => {
     try {
-      const res = await API.get("/api/users");
+      const token = await getToken();
+      const res = await API.get("/api/users", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setUsers(res.data);
     } catch (err) {
       console.error(err);
@@ -31,7 +36,12 @@ export default function AdminPanel() {
   const handlePlanChange = async (userId, newPlan) => {
     try {
       setUpdating(true);
-      const res = await API.put(`/api/users/${userId}`, { plan: newPlan });
+      const token = await getToken();
+      const res = await API.put(`/api/users/${userId}`, { plan: newPlan }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setUsers(users.map(u => u._id === userId ? res.data.user : u));
       setEditingId(null);
       setEditingField(null);
@@ -47,7 +57,12 @@ export default function AdminPanel() {
   const handleSearchesChange = async (userId, newSearches) => {
     try {
       setUpdating(true);
-      const res = await API.put(`/api/users/${userId}/searches`, { noOfSearches: parseInt(newSearches) });
+      const token = await getToken();
+      const res = await API.put(`/api/users/${userId}/searches`, { noOfSearches: parseInt(newSearches) }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setUsers(users.map(u => u._id === userId ? res.data.user : u));
       setEditingId(null);
       setEditingField(null);

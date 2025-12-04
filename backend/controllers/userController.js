@@ -77,3 +77,30 @@ export const updateUserSearches = async (req, res) => {
     res.status(500).json({ error: "Failed to update user searches" });
   }
 };
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.replace("Bearer ", "");
+
+    if (!token) {
+      return res.status(401).json({ error: "No token provided" });
+    }
+
+    const { verifyToken } = await import("@clerk/clerk-sdk-node");
+    const decoded = await verifyToken(token, {
+      secretKey: process.env.CLERK_SECRET_KEY,
+    });
+
+    const clerkId = decoded.sub;
+    const user = await User.findOne({ clerkId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(401).json({ error: "Unauthorized" });
+  }
+};

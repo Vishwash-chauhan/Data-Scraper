@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard'
 import Pricing from './pages/Pricing'
 import AdminPanel from './pages/AdminPanel'
 import Navbar from './components/Navbar'
+import ProtectedAdminRoute from './components/ProtectedAdminRoute'
 import API from './axios';
 
 const App = () => {
@@ -48,7 +49,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Scraper />} />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
       </Routes>
     </div>
   )
