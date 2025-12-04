@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Route, Routes } from 'react-router-dom'
 import Scraper from './pages/Scraper'
 import Dashboard from './pages/Dashboard'
+import Pricing from './pages/Pricing'
 import Navbar from './components/Navbar'
 import API from './axios';
 
@@ -44,9 +45,8 @@ const App = () => {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/scraper" element={<Scraper />} />
-
+        <Route path="/" element={<Scraper />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Routes>
     </div>
   )

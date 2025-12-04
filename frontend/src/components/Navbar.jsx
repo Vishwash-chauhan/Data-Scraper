@@ -12,11 +12,13 @@ const Navbar = () => {
           
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img
-              src="/VyaapaarNiti.png"
-              alt="VyaapaarNiti Logo"
-              className="h-10 w-auto"
-            />
+            <a href="/">
+              <img
+                src="/VyaapaarNiti.png"
+                alt="VyaapaarNiti Logo"
+                className="h-10 w-auto"
+              />
+            </a>
           </div>
 
           {/* Right Section */}

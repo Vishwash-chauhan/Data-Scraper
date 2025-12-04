@@ -301,7 +301,7 @@ const Scraper = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 tracking-tighter">
-            Target Market Intelligence
+            Lead Intelligence Platform
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
             Find, qualify, and connect with high-value business leads in any location with precision.
