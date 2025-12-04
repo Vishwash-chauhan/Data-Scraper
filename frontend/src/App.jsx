@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom'
 import Scraper from './pages/Scraper'
 import Dashboard from './pages/Dashboard'
 import Pricing from './pages/Pricing'
+import AdminPanel from './pages/AdminPanel'
 import Navbar from './components/Navbar'
 import API from './axios';
 
@@ -47,6 +48,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Scraper />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </div>
   )
