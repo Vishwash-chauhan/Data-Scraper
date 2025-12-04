@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Copy, Download, Search, ChevronRight, X, Loader, Star } from 'lucide-react';
-import { useUser, useClerk } from '@clerk/clerk-react';
+import { useUser, useClerk, useAuth } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
+import API from '../axios';
 
 /**
  * Self-contained Toast component (small, dismissible) - Enhanced UI
@@ -44,6 +46,8 @@ const Scraper = () => {
   // --- Clerk Authentication ---
   const { user, isSignedIn } = useUser();
   const { openSignIn } = useClerk();
+  const { getToken } = useAuth();
+  const navigate = useNavigate();
 
   // Replace import.meta.env with a placeholder URL
   const PORT = import.meta.env.VITE_API_URL || "http://localhost:5000"; // Placeholder path or full URL for your backend
@@ -60,6 +64,7 @@ const Scraper = () => {
   const [progress, setProgress] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [toast, setToast] = useState({ visible: false, message: "", type: "info" });
+  const [userData, setUserData] = useState(null);
 
   // refs to prevent race conditions
   const abortRef = useRef(null);
@@ -84,6 +89,27 @@ const Scraper = () => {
     document.head.appendChild(style);
     return () => document.head.removeChild(style);
   }, []);
+
+  // Fetch user data to check noOfSearches
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (isSignedIn) {
+        try {
+          const token = await getToken();
+          const res = await API.get('/api/users/me', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setUserData(res.data);
+        } catch (err) {
+          console.error('Failed to fetch user data:', err);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [isSignedIn, getToken]);
 
   // progress simulator while loading
   useEffect(() => {
@@ -148,6 +174,13 @@ const Scraper = () => {
     // Auth check - if not signed in, open sign-in modal
     if (!isSignedIn) {
       openSignIn({});
+      return;
+    }
+
+    // Check if user has searches remaining
+    if (!userData || userData.noOfSearches <= 0) {
+      showToast("You have no searches remaining. Please upgrade your plan.", "error");
+      setTimeout(() => navigate('/pricing'), 2000);
       return;
     }
 
