@@ -264,6 +264,7 @@ const Scraper = () => {
     const hasHalfStar = rating % 1 !== 0;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
 
+
     return (
       <div className="flex items-center space-x-0.5">
         {[...Array(fullStars)].map((_, i) => (
@@ -294,6 +295,21 @@ const Scraper = () => {
       </div>
     );
   };
+
+    // Helper: Validate website URL
+  const isValidWebsite = (url) => {
+    if (!url) return false;
+
+    const clean = String(url).trim().toLowerCase();
+    return (
+      clean !== "" &&
+      clean !== "null" &&
+      clean !== "undefined" &&
+      clean !== "n/a" &&
+      clean.startsWith("http")
+    );
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-50 pt-28 font-inter">
@@ -354,8 +370,8 @@ const Scraper = () => {
                 onClick={() => handleSearch(true)}
                 disabled={loading}
                 className={`w-full h-full px-6 py-3.5 rounded-xl font-bold text-white transition-all duration-300 transform active:scale-[0.98] ${loading
-                    ? "bg-slate-400 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 shadow-xl shadow-indigo-200"
+                  ? "bg-slate-400 cursor-not-allowed"
+                  : "bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 shadow-xl shadow-indigo-200"
                   }`}
                 title={isSignedIn ? "Search leads" : "Search leads"}
               >
@@ -433,7 +449,7 @@ const Scraper = () => {
                         📞 {r.phone || "N/A"}
                       </div>
 
-                      {r.website ? (
+                      {isValidWebsite(r.website) ? (
                         <a
                           href={r.website}
                           className="text-indigo-600 underline text-xs mt-1 block"
@@ -476,7 +492,7 @@ const Scraper = () => {
                             {r.phone || "N/A"}
                           </td>
                           <td className="px-6 py-4">
-                            {r.website ? (
+                            {isValidWebsite(r.website) ? (
                               <a href={r.website} className="text-indigo-600 underline" target="_blank">Visit Site</a>
                             ) : (
                               <span className="text-slate-400">N/A</span>
