@@ -300,7 +300,7 @@ const Scraper = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-4 tracking-tighter">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tighter">
             Lead Intelligence Platform
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
