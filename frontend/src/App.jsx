@@ -1,16 +1,13 @@
 import { useEffect } from 'react';
-import { useAuth } from "@clerk/clerk-react";
-
-import { useUser } from '@clerk/clerk-react';
-import axios from 'axios';
+import { useUser, useAuth } from "@clerk/clerk-react";
 import { Route, Routes } from 'react-router-dom'
 import Scraper from './pages/Scraper'
 import Dashboard from './pages/Dashboard'
-import Pricing from './pages/Pricing'
-import AdminPanel from './pages/AdminPanel'
 import Navbar from './components/Navbar'
 import ProtectedAdminRoute from './components/ProtectedAdminRoute'
 import API from './axios';
+import Footer from './components/Footer';
+import Terms from './pages/Terms';
 
 const App = () => {
   const { user, isSignedIn } = useUser();
@@ -47,10 +44,11 @@ const App = () => {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Scraper />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/admin" element={<ProtectedAdminRoute><AdminPanel /></ProtectedAdminRoute>} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/scraper" element={<Scraper />} />
+
       </Routes>
+      <Footer />
     </div>
   )
 }
