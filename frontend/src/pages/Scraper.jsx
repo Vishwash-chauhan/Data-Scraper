@@ -316,7 +316,7 @@ const Scraper = () => {
   // Helper to render rating stars
   const renderRating = (rating) => {
     if (rating === undefined || rating === null) return <span className="text-slate-400 text-xs">N/A</span>;
-    const fullStars = Math.floor(Math.min(rating, 5)); // Cap at 5 stars
+    const fullStars = Math.max(0, Math.floor(Math.min(rating, 5))); // Ensure between 0-5
     const hasHalfStar = rating % 1 !== 0 && fullStars < 5;
     const emptyStars = Math.max(0, 5 - fullStars - (hasHalfStar ? 1 : 0)); // Ensure non-negative
 
