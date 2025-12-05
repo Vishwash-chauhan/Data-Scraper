@@ -9,6 +9,6 @@ router.post("/", ClerkExpressRequireAuth(), syncUser);
 router.get("/me", getCurrentUser);
 router.get("/", adminMiddleware, getAllUsers);
 router.put("/:id", adminMiddleware, updateUserPlan);
-router.put("/:id/searches", adminMiddleware, updateUserSearches);
+router.put("/:id/searches", ClerkExpressRequireAuth(), updateUserSearches);
 
 export default router;

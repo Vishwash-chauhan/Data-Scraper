@@ -73,7 +73,7 @@ export const updateUserSearches = async (req, res) => {
 
     res.json({ success: true, user });
   } catch (err) {
-    console.log(err);
+    console.error("Error updating user searches:", err.message);
     res.status(500).json({ error: "Failed to update user searches" });
   }
 };
